@@ -1,0 +1,19 @@
+<resources>
+    <dimen name="Chelesai">16dp</dimen>
+    <dimen name="ChelesaiCiihii">12dp</dimen>
+    <dimen name="ChelesaiMii">8dp</dimen>
+    <dimen name="ChelesaiCiihiiMii">4dp</dimen>
+    <dimen name="ChelesaiCepai">24dp</dimen>
+    <dimen name="Psarh">80dp</dimen>
+    <dimen name="Sorha">40dp</dimen>
+
+    <dimen name="Paaksiica">24dp</dimen>
+    <dimen name="PaaksiicaMii">8dp</dimen>
+    <dimen name="Ciihii">20dp</dimen>
+    <dimen name="CiihiiMii">4dp</dimen>
+
+    <dimen name="Catsiina">16dp</dimen>
+    <dimen name="CatsiinaMii">8dp</dimen>
+    <dimen name="CatsiinaCiihii">12dp</dimen>
+    <dimen name="CatsiinaCiihiiMii">4dp</dimen>
+</resources>
