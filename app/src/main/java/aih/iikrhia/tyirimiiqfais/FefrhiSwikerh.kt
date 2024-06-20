@@ -26,8 +26,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -151,6 +154,8 @@ class FefrhiSwikerh : ViewModel() {
     private val _kalaswikerh = MutableLiveData<Boolean>()
     val kalaswikerh: LiveData<Boolean> = _kalaswikerh
 
+    private var hiinyiikkef = ""
+
     // MediaPlayer object
     var mediaPlayer: MediaPlayer? = null
 
@@ -165,15 +170,21 @@ class FefrhiSwikerh : ViewModel() {
     }
 
     fun sakaSwikerh(query: String) {
-        if (query.isEmpty()) {
+        if (query.isBlank()) {
             _kiitseswikerh.value = ArrayList(_kiihiikiitseswikerh)
         }
         else {
+            val neswikakpaa = query.length < hiinyiikkef.length
             val filteredList = _kiitseswikerh.value?.filter { swikerh ->
+                if (neswikakpaa) {
+                    _kiitseswikerh.value = ArrayList(_kiihiikiitseswikerh)
+                }
                 swikerh.ksaka.contains(query, ignoreCase = true)
+
             } as? ArrayList<Swikerh>?: arrayListOf()
             _kiitseswikerh.value = filteredList
         }
+        hiinyiikkef = query
     }
     fun sasheswikerh(context: Context, rooza: Uri) {
         Log.d("ſɟᴜ j͑ʃп́ꞇ ſɭɔƴ", "$rooza")
@@ -216,8 +227,7 @@ class FefrhiSwikerh : ViewModel() {
 @Composable
 fun Catsara(
     kiitseswikerh: List<Swikerh>,
-    malookwek: (Swikerh) -> Unit,
-    mediaPlayer: MediaPlayer?
+    malookwek: (Swikerh) -> Unit
 ) {
     val animation = AnimationUtils.loadAnimation(LocalContext.current, R.anim.chelesaitahalaqarh)
     LazyColumn(
@@ -324,17 +334,17 @@ fun IixaSwikerh(
                     }
                 })
             }
-            var kef = "ɭɭ"
+            var kef by remember { mutableStateOf("ɭɭ") }
             CepaiCatsiina(
                 modifier = Modifier
                     .width(48.dp),
                 tsiina = {
                     if (fefrhiSwikerh.kalaswikerh.value == true) {
                         fefrhiSwikerh.koliiswikerh()
-                        kef = "\\"
+                        kef = "ɭɭ"
                     } else {
                         fefrhiSwikerh.sasheswikerh(context, Uri.parse(rooza))
-                        kef = "ɭɭ"
+                        kef = "\\"
                     }
                 },
                 areqyiik3 = 0.dp,

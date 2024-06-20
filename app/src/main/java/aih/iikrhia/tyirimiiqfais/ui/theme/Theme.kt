@@ -138,7 +138,7 @@ fun Thala(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(vertical = dimensionResource(id = R.dimen.ChelesaiMii)),
+            .padding(vertical = dimensionResource(id = R.dimen.ChelesaiCiihii) / 2),
         color = color,
         shape = Iitxe,
         border = BorderStroke(
