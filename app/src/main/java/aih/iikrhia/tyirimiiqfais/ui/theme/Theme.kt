@@ -5,12 +5,18 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,7 +32,9 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -81,10 +89,12 @@ content: @Composable () -> Unit
 @Preview
 @Composable
 fun EriihaThala() {
-    Thala({
+    Thala(
+        ciihii = {
         Column {
             Kef()
-            ThalaCiihii({
+            ThalaCiihii(
+                ciihii = {
                 Kef()
             })
         }
@@ -93,7 +103,7 @@ fun EriihaThala() {
 
 
 @Composable
-fun Paaksiica(function: @Composable () -> Unit = {}) {
+fun Paaksiica(ciihii: @Composable () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -106,17 +116,19 @@ fun Paaksiica(function: @Composable () -> Unit = {}) {
             )
             .verticalScroll(rememberScrollState())
     ) {
-        function()
+        ciihii()
     }
 }
 
+
 @Composable
 fun Thala(
-    function: @Composable () -> Unit = {},
+    modifier: Modifier = Modifier,
     color: Color = colorResource(R.color.Piisa),
     border: Color = colorResource(R.color.Catsiina),
     corner1: Dp = dimensionResource(id = R.dimen.Paaksiica),
     corner2: Dp = dimensionResource(R.dimen.PaaksiicaMii),
+    ciihii: @Composable () -> Unit = {}
 ) {
     val Iitxe = RoundedCornerShape(
         corner1,
@@ -125,7 +137,7 @@ fun Thala(
         corner2
     )
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(vertical = dimensionResource(id = R.dimen.ChelesaiMii)),
@@ -136,16 +148,17 @@ fun Thala(
             color = border
         )
     ) {
-        function()
+        ciihii()
     }
 }
 @Composable
 fun ThalaCiihii(
-    function: @Composable () -> Unit = {},
     color: Color = colorResource(R.color.Tiisha),
     border: Color = colorResource(R.color.Tawa),
     corner1: Dp = dimensionResource(id = R.dimen.Ciihii),
-    corner2: Dp = dimensionResource(R.dimen.CiihiiMii)
+    corner2: Dp = dimensionResource(R.dimen.CiihiiMii),
+    areqyiik1: Dp = 0.dp,
+    ciihii: @Composable () -> Unit = {}
 ) {
     val Iitxe = RoundedCornerShape(
         corner1,
@@ -159,7 +172,7 @@ fun ThalaCiihii(
             .wrapContentHeight()
             .padding(
                 dimensionResource(id = R.dimen.ChelesaiCiihii),
-                0.dp,
+                areqyiik1,
                 dimensionResource(id = R.dimen.ChelesaiCiihii),
                 dimensionResource(id = R.dimen.ChelesaiCiihii)
             ),
@@ -170,13 +183,20 @@ fun ThalaCiihii(
             color = border
         )
     ) {
-        function()
+        ciihii()
     }
 }
 
-@Preview
+
 @Composable
-fun Catsiina(modifier: Modifier = Modifier, kef: String = stringResource(id = R.string.app_name)) {
+fun Catsiina(
+    modifier: Modifier = Modifier,
+    tsiina: () -> Unit = {},
+    areqyiik: Dp = dimensionResource(id = R.dimen.ChelesaiCiihii),
+    areqyiik1: Dp = 0.dp,
+    areqyiik2: Dp = dimensionResource(id = R.dimen.ChelesaiCiihii),
+    ciihii: @Composable () -> Unit = {}
+) {
     val Iitxe = RoundedCornerShape(
         dimensionResource(id = R.dimen.Catsiina),
         dimensionResource(id = R.dimen.CatsiinaMii),
@@ -184,36 +204,106 @@ fun Catsiina(modifier: Modifier = Modifier, kef: String = stringResource(id = R.
         dimensionResource(id = R.dimen.CatsiinaMii)
     )
     Button(
+        modifier = modifier
+            .wrapContentWidth(Alignment.CenterHorizontally)
+            .padding(
+                areqyiik,
+                areqyiik1,
+                areqyiik,
+                areqyiik2
+            ),
         colors = ButtonColors(
             containerColor = colorResource(R.color.Catsiina),
             contentColor = colorResource(R.color.Catsiina),
             disabledContainerColor = colorResource(R.color.Catsiina),
-            disabledContentColor = colorResource(R.color.Catsiina)),
+            disabledContentColor = colorResource(R.color.Catsiina)
+        ),
         shape = Iitxe,
-        onClick = { /*TODO*/ }
+        border = BorderStroke(
+            width = 0.75.dp,
+            color = colorResource(id = R.color.Tawa)
+        ),
+        onClick = { tsiina() }
+
     ) {
-        Kef(kef = kef)
+        ciihii()
+    }
+}
+@Composable
+fun CepaiCatsiina(
+    modifier: Modifier = Modifier,
+    tsiina: () -> Unit = {},
+    areqyiik: Dp = dimensionResource(id = R.dimen.ChelesaiCiihii),
+    areqyiik3: Dp = dimensionResource(id = R.dimen.ChelesaiCiihii),
+    areqyiik4: Dp = dimensionResource(id = R.dimen.ChelesaiCiihii),
+    ciihii: @Composable () -> Unit = {}
+) {
+    val Iitxe = RoundedCornerShape(
+        dimensionResource(id = R.dimen.Catsiina),
+        dimensionResource(id = R.dimen.CatsiinaMii),
+        dimensionResource(id = R.dimen.Catsiina),
+        dimensionResource(id = R.dimen.CatsiinaMii)
+    )
+    Box(
+        modifier = modifier
+            .padding(
+                areqyiik3,
+                areqyiik,
+                areqyiik4,
+                areqyiik
+            )
+            .fillMaxHeight()
+            .width(32.dp)
+            .background(
+                color = colorResource(R.color.Catsiina), shape = Iitxe
+            )
+            .border(
+                width = 0.75.dp,
+                color = colorResource(id = R.color.Tawa),
+                shape = Iitxe
+            )
+            .clickable { tsiina() }
+    ) {
+        Box(modifier = Modifier.align(Alignment.Center)) {
+            ciihii()
+        }
     }
 }
 @Composable
 fun Tahaq(
     modifier: Modifier = Modifier,
-    tahaq: Bitmap? = null
+    tahaq: Bitmap? = null,
+    areqyiik: Dp = dimensionResource(id = R.dimen.ChelesaiMii),
+    areqyiik3: Dp = dimensionResource(id = R.dimen.ChelesaiMii),
+    areqyiik4: Dp = dimensionResource(id = R.dimen.ChelesaiMii)
 ) {
     val aritahaq = if (tahaq != null) {
         BitmapPainter(tahaq.asImageBitmap())
     } else {
         painterResource(id = R.drawable.tyilibun)
     }
+    val Iitxe = RoundedCornerShape(
+        dimensionResource(id = R.dimen.Paaksiica),
+        dimensionResource(id = R.dimen.PaaksiicaMii),
+        dimensionResource(id = R.dimen.Paaksiica),
+        dimensionResource(id = R.dimen.PaaksiicaMii)
+    )
     Image(
         modifier = modifier
-            .padding(all = dimensionResource(id = R.dimen.ChelesaiMii)),
+            .padding(
+                areqyiik3,
+                areqyiik,
+                areqyiik4,
+                areqyiik
+            )
+            .clip(Iitxe),
         painter = aritahaq,
         contentDescription = stringResource(id = R.string.app_name)
     )
 }
 @Composable
 fun Kef(
+    modifier: Modifier = Modifier,
     kef: String = stringResource(id = R.string.app_name),
     palaa: TextUnit = 16.sp,
     areqyiik: Dp = dimensionResource(id = R.dimen.Chelesai),
@@ -225,7 +315,7 @@ fun Kef(
         textAlign = TextAlign.Center,
         color = colorResource(id = R.color.Kpaa),
         fontSize = palaa,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 areqyiik,

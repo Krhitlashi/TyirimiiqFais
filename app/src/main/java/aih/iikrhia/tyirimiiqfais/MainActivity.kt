@@ -1,33 +1,48 @@
 package aih.iikrhia.tyirimiiqfais
 
 import aih.iikrhia.tyirimiiqfais.ui.theme.Iikrhia
+import aih.iikrhia.tyirimiiqfais.ui.theme.Kef
 import aih.iikrhia.tyirimiiqfais.ui.theme.Thala
 import android.Manifest
 import android.app.Application
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.RenderEffect
-import android.graphics.Shader
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.WindowInsetsController
-import android.widget.EditText
+import android.provider.MediaStore
+import android.util.Log
+import android.util.Size
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.core.widget.doOnTextChanged
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.DynamicColors
+import java.io.FileNotFoundException
 
 class TyilibunFais : Application() {
     var rooza: String = "rooza"
@@ -41,25 +56,27 @@ class TyilibunFais : Application() {
     }
 }
 
-class MainActivity : ComponentActivity(), FefrhiSwikerh.Sasweswikerh {
+class MainActivity : ComponentActivity() {
 
-    private lateinit var catsara: RecyclerView
-    private lateinit var cafefrhi: FefrhiSwikerh
+    private val fefrhiSwikerh: FefrhiSwikerh by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        setContentView(R.layout.araswikerh)
-
-        catsara = findViewById(R.id.saswikerh)
-        catsara.layoutManager = LinearLayoutManager(this).apply {
-            reverseLayout = true
-            stackFromEnd = true
+        setContent {
+            Iikrhia {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                ) {
+                    IixaAraswikerh()
+                    Iixakanoi(
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter),
+                        fefrhiSwikerh)
+                }
+            }
         }
-        // j͑ʃᴜ ı],ɔ ſɭɹ ɽ͑ʃ'ɔ j͐ʃ ꞁȷ̀ɔ ſ͕ɭᴎɹƽ ſɟᴜ ſᶘᴜ ɽ͑ʃ'ᴜ
-        cafefrhi = FefrhiSwikerh(this, arrayListOf(), this)
-        catsara.adapter = cafefrhi
 
         // ꞁȷ̀ᴜ ſᶘᴜ ꞁȷ̀ɜƣ̋ ꞁȷ̀ɹ ʃᴜ j͑ʃп́ꞇ ſɭɔƴ ſɭᴜ j͑ʃᴜ ſɭᴜ j͐ʃᴜ
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO)
@@ -67,12 +84,8 @@ class MainActivity : ComponentActivity(), FefrhiSwikerh.Sasweswikerh {
         ) {
             requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_AUDIO)
         } else {
-            loadAndDisplayAudioFiles()
-        }
-
-        findViewById<EditText>(R.id.iixakanoi).doOnTextChanged { kiire, _, _, _ ->
-            cafefrhi.sakaKef(kiire.toString())
-
+            val audioFiles = fetchAudioData(this)
+            fefrhiSwikerh.kfiiSwikerh(audioFiles)
         }
     }
 
@@ -81,41 +94,129 @@ class MainActivity : ComponentActivity(), FefrhiSwikerh.Sasweswikerh {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                loadAndDisplayAudioFiles()
+                val audioFiles = fetchAudioData(this)
+                fefrhiSwikerh.kfiiSwikerh(audioFiles)
             } else {
                 Manifest.permission.READ_MEDIA_AUDIO
             }
         }
 
-    private fun loadAndDisplayAudioFiles() {
-        val audioFiles = fetchAudioData(this)
-        cafefrhi.kfiiKef(audioFiles)
+    private fun fetchAudioData(context: Context): ArrayList<Swikerh> {
+        val audioList = ArrayList<Swikerh>()
+        val projection = arrayOf(
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ALBUM_ID,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM
+        )
+
+        val cursor = context.contentResolver.query(
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            null,
+            null,
+            null
+        )
+
+        cursor?.use {
+            val idColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
+            val titleColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE)
+            val albumIdColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID)
+            val artistColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST)
+            val albumColumn = it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM)
+
+            while (it.moveToNext()) {
+                val id = it.getLong(idColumn)
+                val uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id).toString()
+                val title = it.getString(titleColumn)
+                val albumId = it.getLong(albumIdColumn)
+                val albumArtUri = ContentUris.withAppendedId(
+                    MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                    albumId
+                )
+                val albumArt = try {
+                    getAlbumArtFromUri(context, albumArtUri)
+                } catch (e: FileNotFoundException) {
+                    Log.e("FetchAudioData", "Album art not found", e)
+                    BitmapFactory.decodeResource(
+                        context.resources,
+                        R.drawable.tyilibun
+                    )
+                }
+                val artist = it.getString(artistColumn)
+                val album = it.getString(albumColumn)
+                audioList.add(Swikerh(uri, title, albumArt, artist, album))
+            }
+        }
+
+        return audioList
     }
 
-    override fun tsiinakef(swikerh: Swikerh) {
-        val intent = Intent(this@MainActivity, Sweswikerh::class.java)
+    private fun getAlbumArtFromUri(context: Context, albumArtUri: Uri): Bitmap {
+        return context.contentResolver.loadThumbnail(
+            albumArtUri,
+            Size(2048, 2048),
+            null
+        )
+    }
 
-        val zopii = applicationContext as TyilibunFais
-        zopii.rooza = swikerh.rooza
-        zopii.ksaka = swikerh.ksaka
-        zopii.tahaq = swikerh.tahaq
-        zopii.makfii = swikerh.makfii
-        zopii.koocaq = swikerh.koocaq
+    @Composable
+    fun IixaAraswikerh() {
+        val kiitseswikerh by fefrhiSwikerh.kiitseswikerh.observeAsState(initial = emptyList())
 
-        startActivity(intent)
+        // j͑ʃᴜ ı],ɔ ſɭɹ ɽ͑ʃ'ɔ j͐ʃ ꞁȷ̀ɔ ſ͕ɭᴎɹƽ ſɟᴜ ſᶘᴜ ɽ͑ʃ'ᴜ
+        Catsara(
+            kiitseswikerh = kiitseswikerh.reversed(),
+            malookwek = { swikerh ->
+                // Handle click on Swikerh
+                val intent = Intent(this@MainActivity, Sweswikerh::class.java)
+                val zopii = applicationContext as TyilibunFais
+                zopii.rooza = swikerh.rooza
+                zopii.ksaka = swikerh.ksaka
+                zopii.tahaq = swikerh.tahaq
+                zopii.makfii = swikerh.makfii
+                zopii.koocaq = swikerh.koocaq
+                startActivity(intent)
+            },
+            mediaPlayer = fefrhiSwikerh.mediaPlayer
+        )
     }
 }
 
+@Preview
 @Composable
-fun IixaAraswikerh() {
-    Iixakanoi()
-}
-@Composable
-fun Iixakanoi() {
-    Thala({
+fun Iixakanoi(
+    modifier: Modifier = Modifier,
+    fefrhiSwikerh: FefrhiSwikerh = FefrhiSwikerh()
+) {
+    var kef by remember { mutableStateOf("") }
+    Thala(
+        modifier = modifier
+            .padding(
+                dimensionResource(id = R.dimen.Chelesai),
+                dimensionResource(id = R.dimen.Sorha),
+                dimensionResource(id = R.dimen.Chelesai),
+                dimensionResource(id = R.dimen.Chelesai)
+            ),
+        ciihii = {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = kef,
+            onValueChange = {
+                kef = it
+                fefrhiSwikerh.sakaSwikerh(it)
+            },
+            placeholder = {
+                Kef(
+                    kef = stringResource(id = R.string.iixakanoi),
+                    areqyiik = 0.dp,
+                    areqyiik1 = 0.dp,
+                    areqyiik2 = 0.dp
+                )
+            },
+            textStyle = TextStyle(
+                textAlign = TextAlign.Center
             )
+        )
     })
 }

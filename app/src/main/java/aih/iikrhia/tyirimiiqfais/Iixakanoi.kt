@@ -27,7 +27,7 @@ class Iixakanoi(private val haswikerh: ArrayList<Swikerh>, private val adapter: 
     }
 
     override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-        adapter.kfiiKef(sakasaiiixakanoi)
+        adapter.kfiiSwikerh(sakasaiiixakanoi)
     }
 
     fun getFilteredList(): ArrayList<Swikerh> {
