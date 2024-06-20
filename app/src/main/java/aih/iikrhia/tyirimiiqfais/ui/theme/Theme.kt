@@ -82,8 +82,6 @@ content: @Composable () -> Unit
         typography = Typography,
         content = content
     )
-    SideEffect {
-    }
 }
 
 @Preview
