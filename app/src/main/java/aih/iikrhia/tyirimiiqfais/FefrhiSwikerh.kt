@@ -5,9 +5,12 @@ import aih.iikrhia.tyirimiiqfais.ui.theme.Kef
 import aih.iikrhia.tyirimiiqfais.ui.theme.Tahaq
 import aih.iikrhia.tyirimiiqfais.ui.theme.Thala
 import aih.iikrhia.tyirimiiqfais.ui.theme.ThalaCiihii
+import android.app.Notification
+import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaPlayer
+import android.media.session.MediaSession
 import android.net.Uri
 import android.util.Log
 import android.view.animation.AnimationUtils
@@ -23,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -46,106 +51,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.util.*
 
-/* class FefrhiSwikerh(
-    private val context: Context,
-    private var kiitseswikerh: ArrayList<Swikerh>,
-    private val malookwek: Sasweswikerh
-) :
-    RecyclerView.Adapter<FefrhiSwikerh.ShemaXi>() {
-    private var sasaka = Iixakanoi(kiitseswikerh, this)
-    private var kalaswikerh = false
-    private var mediaPlayer: MediaPlayer? = null
-
-    inner class ShemaXi(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val ksaka: TextView = itemView.findViewById(R.id.ksaka)
-        val tahaq: ImageView = itemView.findViewById(R.id.tahaq)
-        val makfii: TextView = itemView.findViewById(R.id.makfii)
-        val koocaq: TextView = itemView.findViewById(R.id.koocaq)
-
-        val sashe: Button = itemView.findViewById(R.id.sashe)
-
-        init {
-            itemView.setOnClickListener(this)
-            }
-
-        override fun onClick(v: View?) {
-            malookwek.tsiinakef(kiitseswikerh[adapterPosition])
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShemaXi {
-        val view = LayoutInflater.from(context).inflate(R.layout.swikerh, parent, false)
-        return ShemaXi(view)
-    }
-
-    override fun onBindViewHolder(mashema: ShemaXi, araq: Int) {
-        mashema.itemView.animation = AnimationUtils.loadAnimation(mashema.itemView.context, R.anim.chelesaitahalaqarh)
-        val audio = kiitseswikerh[araq]
-        mashema.ksaka.text = audio.ksaka
-        mashema.tahaq.setImageBitmap(audio.tahaq)
-        mashema.makfii.text = audio.makfii
-        mashema.koocaq.text = audio.koocaq
-        mashema.itemView.setOnClickListener {
-            malookwek.tsiinakef(kiitseswikerh[araq])
-        }
-        mashema.sashe.setOnClickListener {
-            if (kalaswikerh) {
-                koliiswikerh()
-                mashema.sashe.text = "\\"
-            } else {
-                sasheswikerh(context, Uri.parse(audio.rooza), araq)
-                mashema.sashe.text = "ɭɭ"
-            }
-            notifyItemChanged(araq)
-        }
-    }
-
-    override fun getItemCount(): Int = kiitseswikerh.size
-
-    fun kfiiKef(sefaukiitsewikerh: ArrayList<Swikerh>) {
-        kiitseswikerh = sefaukiitsewikerh
-        notifyDataSetChanged()
-    }
-
-    fun sakaKef(query: String) {
-        sasaka.filter(query)
-    }
-
-    private fun sasheswikerh(context: Context, rooza: Uri, araq: Int) {
-        Log.d("ſɟᴜ j͑ʃп́ꞇ ſɭɔƴ", "$rooza")
-        mediaPlayer = MediaPlayer().apply {
-            try {
-                setDataSource(context, rooza)
-                prepareAsync()
-                setOnPreparedListener {
-                    start()
-                    this@FefrhiSwikerh.kalaswikerh = true
-                }
-                setOnCompletionListener {
-                    this@FefrhiSwikerh.kalaswikerh = false
-                    notifyItemChanged(araq)
-                }
-                setOnErrorListener { _, eskek, inak ->
-                    Log.e("ſɟᴜ j͑ʃп́ꞇ ſɭɔƴ", "ſ͕ȷɜ j͑ʃ'ɔ j͑ʃп́ꞇ ſɭɔƴ - $eskek, $inak")
-                    this@FefrhiSwikerh.kalaswikerh = false
-                    false
-                }
-            }
-            catch (e: Exception) {
-                Log.e("ſɟᴜ j͑ʃп́ꞇ ſɭɔƴ", "ſ͕ȷɜ ſ͕ɭw ŋᷠw - ${e.message}")
-            }
-        }
-    }
-    private fun koliiswikerh() {
-        mediaPlayer?.pause()
-        kalaswikerh = false
-    }
-
-    interface Sasweswikerh {
-        fun tsiinakef(swikerh: Swikerh)
-    }
-} */
-
 class FefrhiSwikerh : ViewModel() {
     private val _kiihiikiitseswikerh = mutableStateListOf<Swikerh>()
     private val _kiitseswikerh = MutableLiveData<ArrayList<Swikerh>>()
@@ -156,7 +61,6 @@ class FefrhiSwikerh : ViewModel() {
 
     private var hiinyiikkef = ""
 
-    // MediaPlayer object
     var mediaPlayer: MediaPlayer? = null
 
     fun kfiiSwikerh(sefaukiitsewikerh: ArrayList<Swikerh>) {
@@ -174,11 +78,7 @@ class FefrhiSwikerh : ViewModel() {
             _kiitseswikerh.value = ArrayList(_kiihiikiitseswikerh)
         }
         else {
-            val neswikakpaa = query.length < hiinyiikkef.length
-            val filteredList = _kiitseswikerh.value?.filter { swikerh ->
-                if (neswikakpaa) {
-                    _kiitseswikerh.value = ArrayList(_kiihiikiitseswikerh)
-                }
+            val filteredList = _kiihiikiitseswikerh.filter { swikerh ->
                 swikerh.ksaka.contains(query, ignoreCase = true)
 
             } as? ArrayList<Swikerh>?: arrayListOf()
@@ -190,6 +90,12 @@ class FefrhiSwikerh : ViewModel() {
         Log.d("ſɟᴜ j͑ʃп́ꞇ ſɭɔƴ", "$rooza")
         mediaPlayer = MediaPlayer().apply {
             try {
+                setAudioAttributes(
+                android.media.AudioAttributes.Builder()
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(android.media.AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
                 setDataSource(context, rooza)
                 prepareAsync()
                 setOnPreparedListener {

@@ -18,7 +18,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -75,11 +74,7 @@ class Sweswikerh : AppCompatActivity() {
             )
             Thala(
                 ciihii = {
-                    Tahaq(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        tahaq = zopii.tahaq
-                    )
+                    Tahaq(tahaq = zopii.tahaq)
                 })
             Thala(
                 ciihii = {

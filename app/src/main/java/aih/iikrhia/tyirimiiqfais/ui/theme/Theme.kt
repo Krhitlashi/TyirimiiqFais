@@ -63,7 +63,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun Iikrhia(
 darkTheme: Boolean = isSystemInDarkTheme(),
-// Dynamic color is available on Android 12+
 dynamicColor: Boolean = true,
 content: @Composable () -> Unit
 ) {
@@ -124,15 +123,13 @@ fun Thala(
     modifier: Modifier = Modifier,
     color: Color = colorResource(R.color.Piisa),
     border: Color = colorResource(R.color.Catsiina),
-    corner1: Dp = dimensionResource(id = R.dimen.Paaksiica),
-    corner2: Dp = dimensionResource(R.dimen.PaaksiicaMii),
     ciihii: @Composable () -> Unit = {}
 ) {
     val Iitxe = RoundedCornerShape(
-        corner1,
-        corner2,
-        corner1,
-        corner2
+        dimensionResource(id = R.dimen.Paaksiica),
+        dimensionResource(R.dimen.PaaksiicaMii),
+        dimensionResource(id = R.dimen.Paaksiica),
+        dimensionResource(R.dimen.PaaksiicaMii)
     )
     Surface(
         modifier = modifier
@@ -142,7 +139,7 @@ fun Thala(
         color = color,
         shape = Iitxe,
         border = BorderStroke(
-            width = 0.75.dp,
+            width = 1.dp,
             color = border
         )
     ) {
@@ -177,7 +174,7 @@ fun ThalaCiihii(
         color = color,
         shape = Iitxe,
         border = BorderStroke(
-            width = 0.75.dp,
+            width = 1.dp,
             color = border
         )
     ) {
@@ -218,7 +215,7 @@ fun Catsiina(
         ),
         shape = Iitxe,
         border = BorderStroke(
-            width = 0.75.dp,
+            width = 1.dp,
             color = colorResource(id = R.color.Tawa)
         ),
         onClick = { tsiina() }
@@ -256,7 +253,7 @@ fun CepaiCatsiina(
                 color = colorResource(R.color.Catsiina), shape = Iitxe
             )
             .border(
-                width = 0.75.dp,
+                width = 1.dp,
                 color = colorResource(id = R.color.Tawa),
                 shape = Iitxe
             )
@@ -281,23 +278,28 @@ fun Tahaq(
         painterResource(id = R.drawable.tyilibun)
     }
     val Iitxe = RoundedCornerShape(
-        dimensionResource(id = R.dimen.Paaksiica),
-        dimensionResource(id = R.dimen.PaaksiicaMii),
-        dimensionResource(id = R.dimen.Paaksiica),
-        dimensionResource(id = R.dimen.PaaksiicaMii)
+        dimensionResource(id = R.dimen.Ciihii),
+        dimensionResource(id = R.dimen.CiihiiMii),
+        dimensionResource(id = R.dimen.Ciihii),
+        dimensionResource(id = R.dimen.CiihiiMii)
     )
-    Image(
+    Box(
         modifier = modifier
             .padding(
                 areqyiik3,
                 areqyiik,
                 areqyiik4,
                 areqyiik
-            )
-            .clip(Iitxe),
-        painter = aritahaq,
-        contentDescription = stringResource(id = R.string.app_name)
-    )
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            modifier = Modifier.clip(Iitxe),
+            painter = aritahaq,
+            contentDescription = stringResource(id = R.string.app_name)
+        )
+    }
+
 }
 @Composable
 fun Kef(
