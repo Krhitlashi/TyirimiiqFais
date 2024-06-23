@@ -38,7 +38,6 @@ android {
     }
     buildFeatures {
         compose = true
-        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -61,6 +60,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.material)
     implementation(libs.androidx.runtime.livedata)
+    implementation(project(":Iikrhia"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,16 +1,13 @@
 package aih.iikrhia.tyirimiiqfais
 
-import aih.iikrhia.tyirimiiqfais.ui.theme.CepaiCatsiina
-import aih.iikrhia.tyirimiiqfais.ui.theme.Kef
+import aih.iikrhia.hashe.CepaiCatsiina
+import aih.iikrhia.hashe.Kef
+import aih.iikrhia.hashe.Thala
+import aih.iikrhia.hashe.ThalaCiihii
 import aih.iikrhia.tyirimiiqfais.ui.theme.Tahaq
-import aih.iikrhia.tyirimiiqfais.ui.theme.Thala
-import aih.iikrhia.tyirimiiqfais.ui.theme.ThalaCiihii
-import android.app.Notification
-import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.media.MediaPlayer
-import android.media.session.MediaSession
 import android.net.Uri
 import android.util.Log
 import android.view.animation.AnimationUtils
@@ -26,7 +23,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -49,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.util.*
+import aih.iikrhia.hashe.R as CaH
 
 class FefrhiSwikerh : ViewModel() {
     private val _kiihiikiitseswikerh = mutableStateListOf<Swikerh>()
@@ -138,12 +133,12 @@ fun Catsara(
     val animation = AnimationUtils.loadAnimation(LocalContext.current, R.anim.chelesaitahalaqarh)
     LazyColumn(
         modifier = Modifier
-            .background(colorResource(id = R.color.Shaqa)),
+            .background(colorResource(id = CaH.color.Shaqa)),
         contentPadding = PaddingValues(
-            dimensionResource(id = R.dimen.Chelesai),
-            dimensionResource(id = R.dimen.Sorha),
-            dimensionResource(id = R.dimen.Chelesai),
-            dimensionResource(id = R.dimen.Chelesai)
+            dimensionResource(id = CaH.dimen.Chelesai),
+            dimensionResource(id = CaH.dimen.Sorha),
+            dimensionResource(id = CaH.dimen.Chelesai),
+            dimensionResource(id = CaH.dimen.Chelesai)
         ),
     ) {
         items(kiitseswikerh.size) { swikerh ->
@@ -217,12 +212,12 @@ fun IixaSwikerh(
             )
             Column(modifier = Modifier.weight(1f)) {
                 ThalaCiihii(
-                    areqyiik1 = dimensionResource(id = R.dimen.ChelesaiCiihii),
+                    areqyiik1 = dimensionResource(id = CaH.dimen.ChelesaiCiihii),
                     ciihii = {
                     Column {
                         Kef(
                             kef = ksaka,
-                            areqyiik1 = dimensionResource(id = R.dimen.ChelesaiMii),
+                            areqyiik1 = dimensionResource(id = CaH.dimen.ChelesaiMii),
                             areqyiik2 = 0.dp
                         )
                         Kef(
@@ -235,7 +230,7 @@ fun IixaSwikerh(
                             kef = koocaq,
                             palaa = 12.sp,
                             areqyiik1 = 0.dp,
-                            areqyiik2 = dimensionResource(id = R.dimen.ChelesaiMii)
+                            areqyiik2 = dimensionResource(id = CaH.dimen.ChelesaiMii)
                         )
                     }
                 })
@@ -259,7 +254,7 @@ fun IixaSwikerh(
                         modifier = Modifier,
                         text = kef,
                         fontSize = 12.sp,
-                        color = colorResource(id = R.color.Kpaa),
+                        color = colorResource(id = CaH.color.Kpaa),
                         textAlign = TextAlign.Center
                     )
                 }

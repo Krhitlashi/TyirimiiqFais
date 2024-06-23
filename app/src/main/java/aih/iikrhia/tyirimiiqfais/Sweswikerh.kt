@@ -1,12 +1,12 @@
 package aih.iikrhia.tyirimiiqfais
 
-import aih.iikrhia.tyirimiiqfais.ui.theme.Catsiina
-import aih.iikrhia.tyirimiiqfais.ui.theme.Iikrhia
-import aih.iikrhia.tyirimiiqfais.ui.theme.Kef
-import aih.iikrhia.tyirimiiqfais.ui.theme.Paaksiica
+import aih.iikrhia.hashe.Catsiina
+import aih.iikrhia.hashe.Kef
+import aih.iikrhia.hashe.Paaksiica
+import aih.iikrhia.hashe.Thala
+import aih.iikrhia.hashe.ThalaCiihii
+import aih.iikrhia.tyirimiiqfais.ui.theme.IikrhiaTyirimiiqfais
 import aih.iikrhia.tyirimiiqfais.ui.theme.Tahaq
-import aih.iikrhia.tyirimiiqfais.ui.theme.Thala
-import aih.iikrhia.tyirimiiqfais.ui.theme.ThalaCiihii
 import android.app.RecoverableSecurityException
 import android.content.ContentUris
 import android.content.ContentValues
@@ -18,12 +18,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import aih.iikrhia.hashe.R as CaH
 
 class Sweswikerh : AppCompatActivity() {
     private lateinit var rooza: Uri
@@ -39,7 +38,7 @@ class Sweswikerh : AppCompatActivity() {
 
         enableEdgeToEdge()
         setContent {
-            Iikrhia {
+            IikrhiaTyirimiiqfais {
                 IixaSweswikerh(zopii)
             }
         }
@@ -70,7 +69,7 @@ class Sweswikerh : AppCompatActivity() {
             Kef(
                 kef = zopii.ksaka,
                 areqyiik1 = 0.dp,
-                areqyiik2 = dimensionResource(id = R.dimen.ChelesaiMii)
+                areqyiik2 = dimensionResource(id = aih.iikrhia.hashe.R.dimen.ChelesaiMii)
             )
             Thala(
                 ciihii = {
@@ -112,12 +111,12 @@ class Sweswikerh : AppCompatActivity() {
                 ciihii = {
                     Kef(
                         kef = stringResource(id = R.string.zetlaq),
-                        areqyiik1 = dimensionResource(id = R.dimen.ChelesaiMii),
-                        areqyiik2 = dimensionResource(id = R.dimen.ChelesaiMii)
+                        areqyiik1 = dimensionResource(id = CaH.dimen.ChelesaiMii),
+                        areqyiik2 = dimensionResource(id = CaH.dimen.ChelesaiMii)
                     )
                 },
                 areqyiik = 0.dp,
-                areqyiik1 = dimensionResource(id = R.dimen.ChelesaiCiihii) / 2
+                areqyiik1 = dimensionResource(id = CaH.dimen.ChelesaiCiihii) / 2
             )
         }
     }

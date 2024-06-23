@@ -1,8 +1,8 @@
 package aih.iikrhia.tyirimiiqfais
 
-import aih.iikrhia.tyirimiiqfais.ui.theme.Iikrhia
-import aih.iikrhia.tyirimiiqfais.ui.theme.Kef
-import aih.iikrhia.tyirimiiqfais.ui.theme.Thala
+import aih.iikrhia.hashe.Kef
+import aih.iikrhia.hashe.Thala
+import aih.iikrhia.tyirimiiqfais.ui.theme.IikrhiaTyirimiiqfais
 import android.Manifest
 import android.app.Application
 import android.content.ContentUris
@@ -11,7 +11,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.session.MediaSession
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -42,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import java.io.FileNotFoundException
+import aih.iikrhia.hashe.R as CaH
 
 class TyilibunFais : Application() {
     var rooza: String = "rooza"
@@ -60,7 +60,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            Iikrhia {
+            IikrhiaTyirimiiqfais {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -190,10 +190,10 @@ fun Iixakanoi(
     Thala(
         modifier = modifier
             .padding(
-                dimensionResource(id = R.dimen.Chelesai),
-                dimensionResource(id = R.dimen.Sorha),
-                dimensionResource(id = R.dimen.Chelesai),
-                dimensionResource(id = R.dimen.Chelesai)
+                dimensionResource(id = CaH.dimen.Chelesai),
+                dimensionResource(id = CaH.dimen.Sorha),
+                dimensionResource(id = CaH.dimen.Chelesai),
+                dimensionResource(id = CaH.dimen.Chelesai)
             ),
         ciihii = {
         TextField(
