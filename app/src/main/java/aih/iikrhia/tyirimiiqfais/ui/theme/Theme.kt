@@ -52,7 +52,7 @@ content: @Composable () -> Unit
 @Composable
 fun Tahaq(
     modifier: Modifier = Modifier,
-    tahaq: Bitmap? = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.tyilibun),
+    tahaq: Bitmap? = BitmapFactory.decodeResource(LocalContext.current.resources, R.drawable.tyirimiiqfais),
     areqyiik: Dp = dimensionResource(id = CaH.dimen.ChelesaiMii),
     areqyiik3: Dp = dimensionResource(id = CaH.dimen.ChelesaiMii),
     areqyiik4: Dp = dimensionResource(id = CaH.dimen.ChelesaiMii)

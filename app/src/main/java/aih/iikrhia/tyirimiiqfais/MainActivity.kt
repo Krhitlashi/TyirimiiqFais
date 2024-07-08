@@ -44,11 +44,11 @@ import java.io.FileNotFoundException
 import aih.iikrhia.hashe.R as CaH
 
 class TyilibunFais : Application() {
-    var rooza: String = "rooza"
-    var ksaka: String = "ksaka"
+    lateinit var rooza: String
+    lateinit var ksaka: String
     var tahaq: Bitmap? = null
-    var makfii: String = "makfii"
-    var koocaq: String = "koocaq"
+    lateinit var makfii: String
+    lateinit var koocaq: String
 }
 
 class MainActivity : ComponentActivity() {
@@ -138,7 +138,7 @@ class MainActivity : ComponentActivity() {
                     Log.e("FetchAudioData", "Album art not found", e)
                     BitmapFactory.decodeResource(
                         context.resources,
-                        R.drawable.tyilibun
+                        R.drawable.tyirimiiqfais
                     )
                 }
                 val artist = it.getString(artistColumn)
